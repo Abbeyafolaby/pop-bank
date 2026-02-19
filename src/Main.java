@@ -8,8 +8,6 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-
-        double balance = 0;
         boolean isRunning = true;
         int choice;
 
@@ -22,8 +20,8 @@ public class Main {
             System.out.println("1. Create Account");
             System.out.println("2. Make a Deposit");
             System.out.println("3. Check Balance");
-            System.out.println("4. View Account Details");
-            System.out.println("5. Withdraw");
+            System.out.println("4. Withdraw");
+            System.out.println("5. Make a transfer");
             System.out.println("6. Exit");
             System.out.println("*********************");
 
@@ -75,9 +73,41 @@ public class Main {
                     }
                     System.out.println();
                 }
-                case 3 -> System.out.println("Here is your Balance");
-                case 4 -> System.out.println("Account Details");
-                case 5 -> System.out.println("Amount Withdrawn");
+                case 3 -> {
+                    System.out.println("\n--- Account Balance ---");
+                    scanner.nextLine();
+
+                    System.out.print("Enter your account number: ");
+                    long accNumber = scanner.nextLong();
+
+                    Account account = findAccount(accounts, accNumber);
+
+                    account.displayDetails();
+
+                }
+                case 4 -> {
+                    System.out.println("\n--- Withdraw ---");
+                    scanner.nextLine();
+
+                    System.out.print("Enter your account number: ");
+                    long accNumber = scanner.nextLong();
+
+                    Account account = findAccount(accounts, accNumber);
+
+                    if (account != null) {
+                        // Account found, ask for withdraw amount
+                        System.out.print("Enter amount to withdraw: $");
+                        double withdrawAmount = scanner.nextDouble();
+
+                        // Call the deposit method
+                        account.withdraw(withdrawAmount);
+                    } else {
+                        System.out.println("Account not found!");
+                    }
+                    System.out.println();
+
+                }
+                case 5 -> System.out.println("Make a transfer");
                 case 6 -> isRunning = false;
                 default -> System.out.println("Pick between 1 - 6");
             }
