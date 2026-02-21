@@ -107,7 +107,47 @@ public class Main {
                     System.out.println();
 
                 }
-                case 5 -> System.out.println("Make a transfer");
+                case 5 -> {
+                    System.out.println("\n--- Make a Transfer ---");
+                    scanner.nextLine();
+
+                    // Get sender account
+                    System.out.print("Enter your account number (FROM): ");
+                    long fromAccNumber = scanner.nextLong();
+                    Account fromAccount = findAccount(accounts, fromAccNumber);
+
+                    if (fromAccount == null) {
+                        System.out.println("Sender account not found!");
+                        System.out.println();
+                        break;
+                    }
+
+                    // Get recipient account
+                    System.out.print("Enter recipient account number (TO): ");
+                    long toAccNumber = scanner.nextLong();
+                    Account toAccount = findAccount(accounts, toAccNumber);
+
+                    if (toAccount == null) {
+                        System.out.println("Recipient account not found!");
+                        System.out.println();
+                        break;
+                    }
+
+                    // Check if trying to transfer to same account
+                    if (fromAccNumber == toAccNumber) {
+                        System.out.println("Cannot transfer to the same account!");
+                        System.out.println();
+                        break;
+                    }
+
+                    // Get transfer amount
+                    System.out.print("Enter amount to transfer: $");
+                    double transferAmount = scanner.nextDouble();
+
+                    // Perform transfer
+                    fromAccount.transfer(toAccount, transferAmount);
+                    System.out.println();
+                }
                 case 6 -> isRunning = false;
                 default -> System.out.println("Pick between 1 - 6");
             }

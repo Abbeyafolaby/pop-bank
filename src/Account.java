@@ -37,6 +37,11 @@ public class Account {
         }
     }
 
+    // Internal method for transfers (no print)
+    public void addFunds(double amount) {
+        balance += amount;
+    }
+
     public double withdraw(double amount) {
         if (amount > balance) {
             System.out.println("Insufficient funds!");
@@ -52,6 +57,28 @@ public class Account {
         return amount;
     }
 
+    public boolean transfer(Account recipient, double amount) {
+        if (amount <= 0) {
+            System.out.println("Transfer amount must be positive.");
+            return false;
+        }
+        if (amount > balance) {
+            System.out.println("Insufficient funds for transfer!");
+            return false;
+        }
+
+        // Deduct from sender (this account)
+        balance -= amount;
+
+        // Add to recipient
+        recipient.addFunds(amount);
+
+        System.out.println("Transfer successful!");
+        System.out.println("Transferred $" + amount + " to account " + recipient.getAccountNumber());
+        System.out.println("Your new balance: $" + balance);
+
+        return true;
+    }
 
 
     public void displayDetails() {
